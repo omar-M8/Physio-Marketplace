@@ -1,4 +1,6 @@
 import React from 'react';
+import TextInput from '../components/TextInputProps';
+import PasswordInput from '../components/passwordInputProp';
 
 // Define component that returns JSX
 const SignUp: React.FC = () => {
@@ -13,19 +15,18 @@ const SignUp: React.FC = () => {
             support on your journey to recovery and wellness.</p>
             <h2>Sign Up</h2>
             <form>
-                <label>
-                    First Name:
-                    <input className='firstName' type="text" name="name" />
-                </label>
-                <label>
-                    Last Name:
-                    <input className='lastName' type="text" name="name" />
-                </label>
-                <br/>
-                <label>
-                    Email:
-                    <input className='email' type="email" name="email" />
-                </label>
+                <TextInput label="First Name:" name="name" type="text" required={true} />
+                <br />
+                <TextInput label='Last Name:' name='name' type='text' required={true} />
+                <br />
+                <TextInput label='Email:' name='email' type='email' required={true} />
+                <br />
+                <TextInput label='Phone Number:' name='phone' type='tel' required={true} />
+                <br />
+                <TextInput label='Username:' name='usrName' type='usrName' required={true} />
+                <br />
+                <PasswordInput label='Password:' name='password' required={true} /> 
+                <br />
                 <br />
                 <label>
                     Area of Specialty:
