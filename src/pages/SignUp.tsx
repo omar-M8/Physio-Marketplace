@@ -1,9 +1,12 @@
 import React from 'react';
 import TextInput from '../components/TextInputProps';
 import PasswordInput from '../components/passwordInputProp';
+import { useNavigate } from 'react-router-dom';
 
 // Define component that returns JSX
 const SignUp: React.FC = () => {
+
+    const navigate = useNavigate();
 
     // Define state for form data
     const [formData, setFormData] = React.useState({
@@ -28,7 +31,12 @@ const SignUp: React.FC = () => {
     // Log form data when form is submitted
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Form Data Submitted:', formData);
+
+        if (!/^\d{3}\d{3}\d{4}$/.test(formData.phoneNmbr)) {
+            alert('Please enter a valid phone number in the format: XXX-XXX-XXXX');
+            return;
+        }
+        navigate('/Home');
     }
 
 
