@@ -4,6 +4,34 @@ import PasswordInput from '../components/passwordInputProp';
 
 // Define component that returns JSX
 const SignUp: React.FC = () => {
+
+    // Define state for form data
+    const [formData, setFormData] = React.useState({
+        fname: '',
+        lname: '',
+        email: '',
+        phoneNmbr: '',
+        usrName: '',
+        password: ''
+    })
+
+    // Update form data when input values change
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('Event:', e.target);
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+    }
+
+    // Log form data when form is submitted
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log('Form Data Submitted:', formData);
+    }
+
+
     return (
         <main>
             <h1>Physio MarketPlace</h1>
@@ -14,18 +42,18 @@ const SignUp: React.FC = () => {
             therapy needs, ensuring you receive the highest quality care and
             support on your journey to recovery and wellness.</p>
             <h2>Sign Up</h2>
-            <form>
-                <TextInput label="First Name:" name="name" type="text" required={true} />
+            <form onSubmit={handleSubmit}>
+                <TextInput label="First Name:" name="fname" type="text" required={true} value= {formData.fname} onChange={handleChange}/>
                 <br />
-                <TextInput label='Last Name:' name='name' type='text' required={true} />
+                <TextInput label='Last Name:' name='lname' type='text' required={true} value={formData.lname} onChange={handleChange} />
                 <br />
-                <TextInput label='Email:' name='email' type='email' required={true} />
+                <TextInput label='Email:' name='email' type='email' required={true} value={formData.email} onChange={handleChange} />
                 <br />
-                <TextInput label='Phone Number:' name='phone' type='tel' required={true} />
+                <TextInput label='Phone Number:' name='phoneNmbr' type='tel' required={true} value= {formData.phoneNmbr} onChange={handleChange} />
                 <br />
-                <TextInput label='Username:' name='usrName' type='usrName' required={true} />
+                <TextInput label='Username:' name='usrName' type='usrName' required={true} value={formData.usrName} onChange={handleChange} />
                 <br />
-                <PasswordInput label='Password:' name='password' required={true} /> 
+                <PasswordInput label='Password:' type='password' name='password' required={true} value={formData.password} onChange={handleChange}/> 
                 <br />
                 <br />
                 <label>
@@ -60,10 +88,6 @@ const SignUp: React.FC = () => {
                             Sports
                         </label>
                     </div>
-                </label>
-                <label>
-                    Password:
-                    <input type="password" name="password" />
                 </label>
                 <br />
                 <button type="submit">Sign Up</button>
