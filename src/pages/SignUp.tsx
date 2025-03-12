@@ -57,7 +57,7 @@ const SignUp: React.FC = () => {
                 alert(error.message);
             } else {
                 alert('Signup successful! Please check your email for verification.');
-                navigate('/Home'); // Redirect to home after successful signup
+                navigate('/Home'); // Redirect to home page after successful signup
             }
         } catch (error) {
             console.error('Signup error:', error);
@@ -87,7 +87,7 @@ const SignUp: React.FC = () => {
                 <br />
                 <TextInput label='Username:' name='usrName' type='usrName' required={true} value={formData.usrName} onChange={handleChange} />
                 <br />
-                <PasswordInput label='Password:' type='password' name='password' required={true} value={formData.password} onChange={handleChange}/> 
+                <PasswordInput label='Password:' type='password' name='password' required={true} onChange={handleChange}/> 
                 <br />
                 <br />
                 <label>
