@@ -1,12 +1,15 @@
 import React from 'react'; 
 import TextInput from '../components/TextInputProps';
 import PasswordInput from '../components/passwordInputProp';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../services/supabase';
 
 const Login: React.FC = () => {
+    const navigate = useNavigate();
 
     //Define state for form data
     const [FormData, setFormData] = React.useState({
-        usrName: '',
+        email: '',
         password: ''
     })
 
@@ -26,13 +29,39 @@ const Login: React.FC = () => {
         console.log('Form Data Submitted:', FormData);
     }
 
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log('Form Data Submitted:', FormData);
+
+        try {
+            const {data, error} = await supabase.auth.signInWithPassword({
+                email: FormData.email,
+                password: FormData.password,
+            });
+
+            if (error) {
+                alert(error.message);
+                return;
+            }
+
+            alert('Login successful!');
+            navigate('/Home');
+
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("An unexpected error occurred. Please try again.");
+        }
+
+
+    }
+
 
     return (
         <main>
             <h1>Physio MarketPlace</h1>
             <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <TextInput label='Username:' name='usrName' type='usrName' required={true} value={FormData.usrName} onChange={handleChange}/>
+            <form onSubmit={handleLogin}>
+                <TextInput label='email:' name='email' type='email' required={true} value={FormData.email} onChange={handleChange}/>
                 <br />
                 <PasswordInput label='Password:' name='password' type='password' required={true} value={FormData.password} onChange={handleChange}/>
                 <br />
