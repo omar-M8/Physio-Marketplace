@@ -16,18 +16,34 @@ const SignUp: React.FC = () => {
         email: '',
         phoneNmbr: '',
         usrName: '',
-        password: ''
+        password: '',
+        specialties: [] as string[]
     })
 
     // Update form data when input values change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Event:', e.target);
         const {name, value} = e.target;
         setFormData({
             ...formData,
             [name]: value
         })
     }
+
+    console.log('Form Data:', formData);
+
+    const handleChekedBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {value, checked} = e.target; //extract 'value' and 'checked' (true/false) from target element
+
+        setFormData((prevData) => {
+            const selectedValues = prevData.specialties || [];
+            
+            return {
+                ...prevData,
+                specialties: checked ? [...selectedValues, value] //add value to array if checked
+                : selectedValues.filter((v) => v !== value) //remove value from array if unchecked
+            };
+            })
+        }
 
     // Log form data when form is submitted
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,39 +106,26 @@ const SignUp: React.FC = () => {
                 <PasswordInput label='Password:' type='password' name='password' required={true} onChange={handleChange}/> 
                 <br />
                 <br />
+
                 <label>
-                    Area of Specialty:
+                    Area of Specialization:
                     <div>
-                        <label>
-                            <input type='checkbox' name='specialty' value='orthopedic' />
-                            Orthopedic
-                        </label>
-                        <label>
-                            <input type='checkbox' name='specialty' value='neurological' />
-                            Neurological
-                        </label>
-                        <label>
-                            <input type='checkbox' name='specialty' value='cardiovascular' />
-                            Cardiovascular
-                        </label>
-                        <label>
-                            <input type='checkbox' name='specialty' value='respiratory' />
-                            Respiratory
-                        </label>
-                        <label>
-                            <input type='checkbox' name='specialty' value='pediatric' />
-                            Pediatric
-                        </label>
-                        <label>
-                            <input type='checkbox' name='specialty' value='geriatric' />
-                            Geriatric
-                        </label>
-                        <label>
-                            <input type='checkbox' name='specialty' value='sports' />
-                            Sports
-                        </label>
+                        {["Orthopedic", "Neurological", "Cardiopulmonary", "Geriatric", "Pediatric", "Sports",
+                        "Medicine"].map((specialty) => (
+                            <label key={specialty}>
+                                <input 
+                                    type="checkbox" 
+                                    name='specialty'
+                                    value={specialty} 
+                                    onChange={handleChekedBoxChange}
+                                    checked={formData.specialties.includes(specialty)}
+                                    />
+                                    {specialty.charAt(0).toUpperCase() + specialty.slice(1)}
+                            </label>
+                        ))}
                     </div>
                 </label>
+
                 <br />
                 <button type="submit">Sign Up</button>
             </form>
