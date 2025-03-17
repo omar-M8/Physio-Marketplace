@@ -53,28 +53,38 @@ const SignUp: React.FC = () => {
             alert('Please enter a valid phone number in the format: XXX-XXX-XXXX');
             return;
         }
-        
-        try {
-            // Call Supabase Auth API to sign up the user
-            const { data, error } = await supabase.auth.signUp({
+        //Implement sign up logic once the submit button is clicked:
+            //1. Call the signUp method from the auth object in the supabase client
+            //2. If the sign up is successful, insert the user data into the users table in the database
+            //3. If the sign up is successful, redirect the user to the home page
+        try {            
+            const {data: authData, error: authError} = await supabase.auth.signUp({
                 email: formData.email,
-                password: formData.password,
-                options: {
-                    data: {
-                        first_name: formData.fname,
-                        last_name: formData.lname,
-                        phone_number: formData.phoneNmbr,
-                        username: formData.usrName,
-                    }
-                }
+                password: formData.password
             });
 
-            if (error) {
-                alert(error.message);
-            } else {
-                alert('Signup successful! Please check your email for verification.');
-                navigate('/Home'); // Redirect to home page after successful signup
+            if (authError) {
+                throw (authError.message);
             }
+
+            const {data, error: dbError} = await supabase.from('users').insert([
+                {
+                    id: authData?.user?.id,
+                    fname: formData.fname,
+                    lname: formData.lname,
+                    email: formData.email,
+                    phone_number: formData.phoneNmbr,
+                    username: formData.usrName,
+                    specialties: formData.specialties
+                }
+            ]);
+
+                if (dbError) {
+                    throw (dbError.message);
+                }
+
+                alert('Signup successful! Please check your email for verification.');
+                navigate('/Home'); // Redirect to home page after successful signup 
         } catch (error) {
             console.error('Signup error:', error);
             alert('An unexpected error occurred. Please try again.');
