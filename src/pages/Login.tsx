@@ -15,7 +15,6 @@ const Login: React.FC = () => {
 
     // Update form data when input values change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Event:', e.target);
         const {name, value} = e.target;
         setFormData({
             ...FormData,
@@ -23,15 +22,8 @@ const Login: React.FC = () => {
         })
     }
 
-    // Log form data when form is submitted
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log('Form Data Submitted:', FormData);
-    }
-
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Form Data Submitted:', FormData);
 
         try {
             const {data, error} = await supabase.auth.signInWithPassword({
@@ -63,7 +55,7 @@ const Login: React.FC = () => {
             <form onSubmit={handleLogin}>
                 <TextInput label='email:' name='email' type='email' required={true} value={FormData.email} onChange={handleChange}/>
                 <br />
-                <PasswordInput label='Password:' name='password' type='password' required={true} value={FormData.password} onChange={handleChange}/>
+                <PasswordInput label='Password:' name='password' type='password' required={true} onChange={handleChange}/>
                 <br />
                 <button type='submit'>Login</button>
             </form>

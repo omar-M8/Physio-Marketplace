@@ -45,6 +45,12 @@ const SignUp: React.FC = () => {
             })
         }
 
+    const toLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+            console.log("Login button clicked!", e)
+            navigate('/login')
+        }
+
+
     // Log form data when form is submitted
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -120,8 +126,15 @@ const SignUp: React.FC = () => {
                 <label>
                     Area of Specialization:
                     <div>
-                        {["Orthopedic", "Neurological", "Cardiopulmonary", "Geriatric", "Pediatric", "Sports",
-                        "Medicine"].map((specialty) => (
+                        {
+                        ["Orthopedic", 
+                        "Neurological", 
+                        "Cardiopulmonary", 
+                        "Geriatric", 
+                        "Pediatric", 
+                        "Sports",
+                        "Medicine"
+                        ].map((specialty) => (
                             <label key={specialty}>
                                 <input 
                                     type="checkbox" 
@@ -138,6 +151,8 @@ const SignUp: React.FC = () => {
 
                 <br />
                 <button type="submit">Sign Up</button>
+                <br/><br/>
+                <button onClick={toLogin}>Already have an account?</button>
             </form>
         </main>
     )
